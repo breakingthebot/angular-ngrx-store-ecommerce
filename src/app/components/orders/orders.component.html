@@ -1,0 +1,107 @@
+<div class="orders-container">
+  <!-- Page Header -->
+  <header class="orders-header">
+    <div class="header-text">
+      <h1>Order History</h1>
+      <p>Track past purchases, status updates, and order receipts powered by NgRx selectors.</p>
+    </div>
+  </header>
+
+  <!-- Filter Chips Toolbar -->
+  <div class="filter-toolbar">
+    <span class="filter-label">Filter Status:</span>
+    <mat-chip-set aria-label="Status Selection">
+      @for (status of statusFilters; track status) {
+        <mat-chip
+          [highlighted]="selectedStatus() === status"
+          (click)="onStatusFilter(status)"
+          class="status-chip-btn">
+          {{ status }}
+        </mat-chip>
+      }
+    </mat-chip-set>
+  </div>
+
+  <!-- Orders List Container -->
+  <div class="orders-list">
+    @for (order of filteredOrders$ | async; track order.id) {
+      <mat-card class="order-timeline-card">
+        <!-- Order Header -->
+        <mat-card-header class="order-card-header">
+          <div class="order-ref-wrap">
+            <mat-icon class="order-icon">inventory_2</mat-icon>
+            <div class="order-ref-info">
+              <h2 class="order-id">{{ order.id }}</h2>
+              <span class="order-date">Placed on {{ order.createdAt | date:'mediumDate' }}</span>
+            </div>
+          </div>
+
+          <span class="status-badge" [ngClass]="order.status.toLowerCase()">
+            {{ order.status }}
+          </span>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+
+        <!-- Order Body Details -->
+        <mat-card-content class="order-card-body">
+          <div class="meta-details-grid">
+            <div class="meta-block">
+              <span class="meta-label">Shipping Address:</span>
+              <span class="meta-val"><strong>{{ order.shipping.fullName }}</strong></span>
+              <span class="meta-val">{{ order.shipping.addressLine }}</span>
+              <span class="meta-val">{{ order.shipping.city }}, {{ order.shipping.state }} {{ order.shipping.zipCode }}</span>
+            </div>
+
+            <div class="meta-block">
+              <span class="meta-label">Payment Method:</span>
+              <span class="meta-val"><strong>{{ order.paymentMethod }}</strong></span>
+              <span class="meta-val">Contact: {{ order.shipping.email }}</span>
+            </div>
+          </div>
+
+          <!-- Items Breakdown -->
+          <div class="items-breakdown-box">
+            <h3 class="box-title">Order Items ({{ order.items.length }})</h3>
+            @for (item of order.items; track item.product.id) {
+              <div class="item-row">
+                <div class="item-info">
+                  <img [src]="item.product.imageUrl" [alt]="item.product.name" class="thumb-img">
+                  <div>
+                    <span class="item-name">{{ item.product.name }}</span>
+                    <span class="item-qty-price">{{ item.quantity }} x {{ item.product.price | currency:'USD':'symbol':'1.2-2' }}</span>
+                  </div>
+                </div>
+                <span class="item-subtotal">{{ (item.product.price * item.quantity) | currency:'USD':'symbol':'1.2-2' }}</span>
+              </div>
+            }
+          </div>
+
+          <!-- Price Summary Footer Row -->
+          <div class="totals-summary-row">
+            <div class="summary-col">
+              <span>Subtotal: <strong>{{ order.subtotal | currency:'USD':'symbol':'1.2-2' }}</strong></span>
+              <span>Shipping: <strong>{{ order.shippingFee === 0 ? 'FREE' : (order.shippingFee | currency:'USD':'symbol':'1.2-2') }}</strong></span>
+              <span>Tax (8%): <strong>{{ order.tax | currency:'USD':'symbol':'1.2-2' }}</strong></span>
+            </div>
+
+            <div class="total-paid-wrap">
+              <span class="total-label">Total Paid:</span>
+              <span class="total-val">{{ order.total | currency:'USD':'symbol':'1.2-2' }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    } @empty {
+      <div class="empty-orders-state">
+        <mat-icon class="empty-icon">local_shipping</mat-icon>
+        <h3>No Orders Placed Yet</h3>
+        <p>You haven't placed any orders yet. Browse our catalog and checkout to track your purchases here!</p>
+        <button mat-flat-button color="primary" class="shop-btn" routerLink="/catalog">
+          <mat-icon>storefront</mat-icon>
+          <span>Browse Catalog</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

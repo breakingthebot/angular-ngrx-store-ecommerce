@@ -13,6 +13,13 @@
           <mat-icon>storefront</mat-icon>
           <span>Catalog</span>
         </a>
+
+        <!-- Cart Trigger Button -->
+        <button mat-icon-button (click)="toggleCart()" class="cart-trigger-btn">
+          <mat-icon [matBadge]="cartTotalItems$ | async" matBadgeColor="warn" [matBadgeHidden]="(cartTotalItems$ | async) === 0">
+            shopping_cart
+          </mat-icon>
+        </button>
       </div>
     </div>
   </mat-toolbar>
@@ -21,4 +28,7 @@
   <main class="main-body">
     <router-outlet></router-outlet>
   </main>
+
+  <!-- Side Shopping Cart Drawer -->
+  <app-cart-drawer></app-cart-drawer>
 </div>

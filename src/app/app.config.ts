@@ -7,6 +7,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
 import { productReducer } from './store/product/product.reducer';
+import { cartReducer } from './store/cart/cart.reducer';
 import { ProductEffects } from './store/product/product.effects';
 
 export const appConfig: ApplicationConfig = {
@@ -15,7 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideStore({
-      catalog: productReducer
+      catalog: productReducer,
+      cart: cartReducer
     }),
     provideEffects([
       ProductEffects

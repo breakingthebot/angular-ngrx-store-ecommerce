@@ -26,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 // Store & Models
 import { Product } from '../../models/product.model';
 import * as ProductActions from '../../store/product/product.actions';
+import * as CartActions from '../../store/cart/cart.actions';
 import {
   selectAllProducts,
   selectProductsLoading,
@@ -132,8 +133,7 @@ export class CatalogComponent implements OnInit {
   }
 
   addToCart(product: Product): void {
-    // Placeholder action for Iteration 3 Cart Integration
-    console.log('Added to cart:', product);
+    this.store.dispatch(CartActions.addToCart({ product }));
   }
 
   private triggerRecompute(): void {

@@ -6,14 +6,25 @@
 
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideMockStore } from '@ngrx/store/testing';
 import { AppComponent } from './app.component';
+import { selectCartTotalItems, selectIsCartDrawerOpen, selectCartItems, selectCartSubtotal, selectFreeShippingProgress } from './store/cart/cart.selectors';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
-        provideRouter([])
+        provideRouter([]),
+        provideMockStore({
+          selectors: [
+            { selector: selectCartTotalItems, value: 0 },
+            { selector: selectIsCartDrawerOpen, value: false },
+            { selector: selectCartItems, value: [] },
+            { selector: selectCartSubtotal, value: 0 },
+            { selector: selectFreeShippingProgress, value: { subtotal: 0, threshold: 150, remaining: 150, progressPercentage: 0, isQualified: false } }
+          ]
+        })
       ]
     }).compileComponents();
   });

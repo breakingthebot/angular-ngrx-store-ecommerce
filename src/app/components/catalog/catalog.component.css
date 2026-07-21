@@ -274,3 +274,38 @@
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Mobile Responsive Media Queries */
+@media (max-width: 768px) {
+  .catalog-container {
+    padding: 16px 12px;
+  }
+
+  .catalog-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .toolbar-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .search-wrap, .sort-wrap {
+    width: 100%;
+    flex: none;
+  }
+
+  .categories-wrap {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    gap: 16px;
+  }
+}

@@ -55,7 +55,7 @@
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .nav-btn {
@@ -65,4 +65,28 @@
 
 .main-body {
   flex: 1;
+}
+
+/* Mobile Media Queries */
+@media (max-width: 600px) {
+  .nav-container {
+    padding: 0 8px;
+  }
+
+  .brand-name {
+    font-size: 1.05rem;
+  }
+
+  .brand-tag {
+    display: none;
+  }
+
+  .nav-btn {
+    padding: 0 8px !important;
+    min-width: 0 !important;
+  }
+
+  .nav-btn span {
+    font-size: 0.85rem;
+  }
 }

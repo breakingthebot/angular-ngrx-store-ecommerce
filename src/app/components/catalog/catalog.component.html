@@ -1,0 +1,107 @@
+<div class="catalog-container">
+  <!-- Page Header -->
+  <header class="catalog-header">
+    <div class="header-text">
+      <h1>Store Catalog</h1>
+      <p>Explore premium gear, electronics, and apparel powered by NgRx state management.</p>
+    </div>
+  </header>
+
+  <!-- Filter & Controls Toolbar -->
+  <div class="toolbar-card">
+    <div class="search-wrap">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search Products</mat-label>
+        <input matInput [ngModel]="searchQuery()" (ngModelChange)="onSearchChange($event)" placeholder="Search by product name or description...">
+        <mat-icon matPrefix class="search-icon">search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="categories-wrap">
+      <span class="filter-label">Categories:</span>
+      <mat-chip-set aria-label="Category Selection">
+        @for (cat of categories; track cat) {
+          <mat-chip
+            [highlighted]="selectedCategory() === cat"
+            (click)="onCategorySelect(cat)"
+            class="category-chip">
+            {{ cat }}
+          </mat-chip>
+        }
+      </mat-chip-set>
+    </div>
+
+    <div class="sort-wrap">
+      <mat-form-field appearance="outline" class="sort-field">
+        <mat-label>Sort By</mat-label>
+        <mat-select [ngModel]="sortOption()" (ngModelChange)="onSortChange($event)">
+          <mat-option value="featured">Featured</mat-option>
+          <mat-option value="price-low">Price: Low to High</mat-option>
+          <mat-option value="price-high">Price: High to Low</mat-option>
+          <mat-option value="rating">Top Rated</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Main Content Grid Area -->
+  @if (loading$ | async) {
+    <div class="loading-state">
+      <mat-spinner diameter="48" color="primary"></mat-spinner>
+      <p class="loading-text">Fetching store catalog from NgRx store...</p>
+    </div>
+  } @else if (error$ | async) {
+    <div class="error-state">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <h3>Failed to load catalog</h3>
+      <p>{{ error$ | async }}</p>
+    </div>
+  } @else {
+    <div class="products-grid">
+      @for (product of filteredProducts$ | async; track product.id) {
+        <mat-card class="product-card">
+          <!-- Image Wrapper with Category Badge -->
+          <div class="image-wrapper">
+            <img [src]="product.imageUrl" [alt]="product.name" class="product-image" loading="lazy">
+            <span class="category-badge">{{ product.category }}</span>
+          </div>
+
+          <mat-card-content class="card-body">
+            <!-- Header Info: Rating & Name -->
+            <div class="rating-row">
+              <span class="rating-badge">
+                <mat-icon class="star-icon">star</mat-icon>
+                <span>{{ product.rating }}</span>
+              </span>
+              <span class="stock-status" [ngClass]="{'in-stock': product.stock > 0, 'low-stock': product.stock <= 5}">
+                {{ product.stock > 0 ? product.stock + ' in stock' : 'Out of Stock' }}
+              </span>
+            </div>
+
+            <h2 class="product-title">{{ product.name }}</h2>
+            <p class="product-desc">{{ product.description }}</p>
+          </mat-card-content>
+
+          <!-- Card Footer: Price & Actions -->
+          <mat-card-actions class="card-footer">
+            <div class="price-wrap">
+              <span class="currency-label">USD</span>
+              <span class="price-amount">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</span>
+            </div>
+
+            <button mat-flat-button color="primary" class="add-cart-btn" (click)="addToCart(product)">
+              <mat-icon>add_shopping_cart</mat-icon>
+              <span>Add to Cart</span>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">search_off</mat-icon>
+          <h3>No matching products found</h3>
+          <p>Try adjusting your search keywords or switching category filters.</p>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,7 @@
+.angular/
+node_modules/
+dist/
+.git/
+AGENTS.md
+BUILD_NOTES.md
+.env

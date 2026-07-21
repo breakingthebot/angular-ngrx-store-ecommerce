@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-07-21
+
+### Added
+- Created `WishlistComponent` displaying favorited items at route `/wishlist`.
+- Implemented NgRx Wishlist state slice (`wishlist.actions.ts`, `wishlist.reducer.ts`, `wishlist.selectors.ts`).
+- Integrated wishlist hydration and persistence into `hydrationMetaReducer`.
+- Added floating heart toggles overlaying catalog cards and inside product details modal headers.
+- Integrated top navbar navigation link for "Wishlist" with heart count badge.
+- Wrote unit specs for the wishlist reducer and component grids.
+
 ## [0.6.0] - 2026-07-21
 
 ### Added

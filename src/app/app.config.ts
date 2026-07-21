@@ -14,6 +14,8 @@ import { OrderEffects } from './store/order/order.effects';
 
 import { hydrationMetaReducer } from './store/meta-reducers/hydration.reducer';
 
+import { wishlistReducer } from './store/wishlist/wishlist.reducer';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -23,7 +25,8 @@ export const appConfig: ApplicationConfig = {
       {
         catalog: productReducer,
         cart: cartReducer,
-        order: orderReducer
+        order: orderReducer,
+        wishlist: wishlistReducer
       },
       {
         metaReducers: [hydrationMetaReducer]

@@ -2,9 +2,16 @@
   <!-- Dialog Header Bar -->
   <div class="dialog-header">
     <span class="category-chip">{{ product.category }}</span>
-    <button mat-icon-button (click)="onClose()" aria-label="Close dialog">
-      <mat-icon>close</mat-icon>
-    </button>
+    <div class="header-actions">
+      <button mat-icon-button (click)="toggleWishlist()"
+        [color]="isProductInWishlist(wishlistItems$ | async) ? 'warn' : ''"
+        matTooltip="Toggle Wishlist">
+        <mat-icon>{{ isProductInWishlist(wishlistItems$ | async) ? 'favorite' : 'favorite_border' }}</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onClose()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
 
   <!-- Dialog Body Grid -->

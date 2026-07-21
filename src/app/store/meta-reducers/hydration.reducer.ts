@@ -35,7 +35,8 @@ export function hydrationMetaReducer(reducer: ActionReducer<any>): ActionReducer
     if (nextState) {
       const stateToSave = {
         cart: nextState.cart,
-        order: nextState.order
+        order: nextState.order,
+        wishlist: nextState.wishlist
       };
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));

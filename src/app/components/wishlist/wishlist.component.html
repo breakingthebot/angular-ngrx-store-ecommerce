@@ -1,0 +1,67 @@
+<div class="wishlist-container">
+  <!-- Page Header -->
+  <header class="wishlist-header">
+    <div class="header-text">
+      <h1>My Wishlist</h1>
+      <p>Manage your favorited items, add them to your cart, or remove them from bookmarks.</p>
+    </div>
+  </header>
+
+  <!-- Wishlist Items Grid -->
+  <div class="wishlist-grid">
+    @for (product of wishlistItems$ | async; track product.id) {
+      <mat-card class="product-card">
+        <!-- Image Wrapper with Category Badge -->
+        <div class="image-wrapper">
+          <img [src]="product.imageUrl" [alt]="product.name" class="product-image" loading="lazy">
+          <span class="category-badge">{{ product.category }}</span>
+        </div>
+
+        <mat-card-content class="card-body">
+          <div class="rating-row">
+            <span class="rating-badge">
+              <mat-icon class="star-icon">star</mat-icon>
+              <span>{{ product.rating }}</span>
+            </span>
+            <span class="stock-status in-stock">
+              {{ product.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+            </span>
+          </div>
+
+          <h2 class="product-title">{{ product.name }}</h2>
+          <p class="product-desc">{{ product.description }}</p>
+        </mat-card-content>
+
+        <mat-divider></mat-divider>
+
+        <!-- Footer actions: Remove and Add to Cart -->
+        <mat-card-actions class="card-footer">
+          <div class="price-wrap">
+            <span class="currency-label">USD</span>
+            <span class="price-amount">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</span>
+          </div>
+
+          <div class="actions-group">
+            <button mat-icon-button color="warn" (click)="onRemove(product)" matTooltip="Remove from Wishlist">
+              <mat-icon>favorite</mat-icon>
+            </button>
+            <button mat-flat-button color="primary" class="add-cart-btn" (click)="onAddToCart(product)">
+              <mat-icon>add_shopping_cart</mat-icon>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    } @empty {
+      <div class="empty-wishlist-state">
+        <mat-icon class="empty-icon">favorite_border</mat-icon>
+        <h3>Your Wishlist is Empty</h3>
+        <p>Explore our premium product catalog and click the heart icon to save your favorite items here!</p>
+        <button mat-flat-button color="primary" class="shop-btn" routerLink="/catalog">
+          <mat-icon>storefront</mat-icon>
+          <span>Browse Catalog</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

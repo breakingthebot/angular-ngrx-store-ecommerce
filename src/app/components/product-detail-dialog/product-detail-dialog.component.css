@@ -11,6 +11,12 @@
   border-bottom: 1px solid var(--border-color, #e2e8f0);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .category-chip {
   background-color: #f1f5f9;
   color: #475569;

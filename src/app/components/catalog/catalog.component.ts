@@ -32,9 +32,10 @@ import {
   selectProductsLoading,
   selectProductsError
 } from '../../store/product/product.selectors';
-
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { ProductDetailDialogComponent } from '../product-detail-dialog/product-detail-dialog.component';
+import { WishlistActions } from '../../store/wishlist/wishlist.actions';
+import { selectWishlistItems } from '../../store/wishlist/wishlist.selectors';
 
 @Component({
   selector: 'app-catalog',
@@ -65,6 +66,7 @@ export class CatalogComponent implements OnInit {
   products$: Observable<Product[]> = this.store.select(selectAllProducts);
   loading$: Observable<boolean> = this.store.select(selectProductsLoading);
   error$: Observable<string | null> = this.store.select(selectProductsError);
+  wishlistItems$: Observable<Product[]> = this.store.select(selectWishlistItems);
 
   // Filter Signals
   searchQuery = signal<string>('');
@@ -147,6 +149,15 @@ export class CatalogComponent implements OnInit {
       maxWidth: '780px',
       width: '92vw'
     });
+  }
+
+  isProductInWishlist(product: Product, wishlist: Product[] | null): boolean {
+    return !!wishlist && wishlist.some(item => item.id === product.id);
+  }
+
+  toggleWishlist(product: Product, event: Event): void {
+    event.stopPropagation();
+    this.store.dispatch(WishlistActions.toggleWishlist({ product }));
   }
 
   private triggerRecompute(): void {

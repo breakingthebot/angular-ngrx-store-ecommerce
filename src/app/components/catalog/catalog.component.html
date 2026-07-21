@@ -64,6 +64,12 @@
           <div class="image-wrapper clickable" (click)="openProductDetail(product)">
             <img [src]="product.imageUrl" [alt]="product.name" class="product-image" loading="lazy">
             <span class="category-badge">{{ product.category }}</span>
+            <button mat-icon-button class="wishlist-toggle-btn"
+              (click)="toggleWishlist(product, $event)"
+              [color]="isProductInWishlist(product, wishlistItems$ | async) ? 'warn' : ''"
+              matTooltip="Toggle Wishlist">
+              <mat-icon>{{ isProductInWishlist(product, wishlistItems$ | async) ? 'favorite' : 'favorite_border' }}</mat-icon>
+            </button>
           </div>
 
           <mat-card-content class="card-body">

@@ -19,6 +19,13 @@
           <span>Orders</span>
         </a>
 
+        <a mat-button routerLink="/wishlist" routerLinkActive="active-link" class="nav-btn">
+          <mat-icon [matBadge]="wishlistTotalItems$ | async" matBadgeColor="accent" [matBadgeHidden]="(wishlistTotalItems$ | async) === 0">
+            favorite
+          </mat-icon>
+          <span>Wishlist</span>
+        </a>
+
         <!-- Cart Trigger Button -->
         <button mat-icon-button (click)="toggleCart()" class="cart-trigger-btn">
           <mat-icon [matBadge]="cartTotalItems$ | async" matBadgeColor="warn" [matBadgeHidden]="(cartTotalItems$ | async) === 0">

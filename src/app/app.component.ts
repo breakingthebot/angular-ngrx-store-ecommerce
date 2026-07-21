@@ -21,6 +21,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CartDrawerComponent } from './components/cart-drawer/cart-drawer.component';
 import * as CartActions from './store/cart/cart.actions';
 import { selectCartTotalItems } from './store/cart/cart.selectors';
+import { selectWishlistTotalItems } from './store/wishlist/wishlist.selectors';
 
 @Component({
   selector: 'app-root',
@@ -43,6 +44,7 @@ export class AppComponent {
   private store = inject(Store);
 
   cartTotalItems$: Observable<number> = this.store.select(selectCartTotalItems);
+  wishlistTotalItems$: Observable<number> = this.store.select(selectWishlistTotalItems);
 
   toggleCart(): void {
     this.store.dispatch(CartActions.toggleCartDrawer());

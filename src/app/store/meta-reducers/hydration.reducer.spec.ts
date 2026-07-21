@@ -19,7 +19,8 @@ describe('Hydration MetaReducer', () => {
   it('should hydrate state from localStorage on INIT action', () => {
     const mockSavedState = {
       cart: { items: [{ product: { id: 'P1', name: 'Bike' }, quantity: 2 }], isDrawerOpen: false },
-      order: { orders: [], currentOrder: null, isPlacingOrder: false, error: null }
+      order: { orders: [], currentOrder: null, isPlacingOrder: false, error: null },
+      wishlist: { items: [] }
     };
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(mockSavedState));
@@ -32,12 +33,14 @@ describe('Hydration MetaReducer', () => {
 
     expect(resultState.cart).toEqual(mockSavedState.cart);
     expect(resultState.order).toEqual(mockSavedState.order);
+    expect(resultState.wishlist).toEqual(mockSavedState.wishlist);
   });
 
   it('should persist cart and order slices to localStorage on action dispatch', () => {
     const dummyReducer = (state: any) => ({
       cart: { items: [{ product: { id: 'P2', name: 'Shoes' }, quantity: 1 }], isDrawerOpen: true },
-      order: { orders: [], currentOrder: null, isPlacingOrder: false, error: null }
+      order: { orders: [], currentOrder: null, isPlacingOrder: false, error: null },
+      wishlist: { items: [] }
     });
 
     const metaReducer = hydrationMetaReducer(dummyReducer);

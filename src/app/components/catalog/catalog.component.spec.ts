@@ -12,6 +12,8 @@ import { Product } from '../../models/product.model';
 import * as ProductActions from '../../store/product/product.actions';
 import { selectAllProducts, selectProductsLoading, selectProductsError } from '../../store/product/product.selectors';
 
+import { selectWishlistItems } from '../../store/wishlist/wishlist.selectors';
+
 describe('CatalogComponent', () => {
   let component: CatalogComponent;
   let fixture: ComponentFixture<CatalogComponent>;
@@ -49,7 +51,8 @@ describe('CatalogComponent', () => {
           selectors: [
             { selector: selectAllProducts, value: mockProducts },
             { selector: selectProductsLoading, value: false },
-            { selector: selectProductsError, value: null }
+            { selector: selectProductsError, value: null },
+            { selector: selectWishlistItems, value: [] }
           ]
         })
       ]

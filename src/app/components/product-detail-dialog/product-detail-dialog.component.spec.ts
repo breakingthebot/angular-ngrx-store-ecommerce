@@ -12,6 +12,9 @@ import { ProductDetailDialogComponent } from './product-detail-dialog.component'
 import { Product } from '../../models/product.model';
 import * as CartActions from '../../store/cart/cart.actions';
 
+import { selectWishlistItems } from '../../store/wishlist/wishlist.selectors';
+import { WishlistActions } from '../../store/wishlist/wishlist.actions';
+
 describe('ProductDetailDialogComponent', () => {
   let component: ProductDetailDialogComponent;
   let fixture: ComponentFixture<ProductDetailDialogComponent>;
@@ -41,7 +44,11 @@ describe('ProductDetailDialogComponent', () => {
       imports: [ProductDetailDialogComponent],
       providers: [
         provideAnimationsAsync(),
-        provideMockStore({}),
+        provideMockStore({
+          selectors: [
+            { selector: selectWishlistItems, value: [] }
+          ]
+        }),
         { provide: MatDialogRef, useValue: dialogRefSpy },
         { provide: MAT_DIALOG_DATA, useValue: mockProduct }
       ]
@@ -73,5 +80,12 @@ describe('ProductDetailDialogComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(CartActions.addToCart({ product: mockProduct }));
     expect(dialogRefSpy.close).toHaveBeenCalled();
+  });
+
+  it('should dispatch WishlistActions.toggleWishlist on wishlist button click', () => {
+    fixture.detectChanges();
+    component.toggleWishlist();
+
+    expect(store.dispatch).toHaveBeenCalledWith(WishlistActions.toggleWishlist({ product: mockProduct }));
   });
 });

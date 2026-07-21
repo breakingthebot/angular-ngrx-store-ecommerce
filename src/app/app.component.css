@@ -86,7 +86,7 @@
     min-width: 0 !important;
   }
 
-  .nav-btn span {
-    font-size: 0.85rem;
+  .nav-btn-text {
+    display: none;
   }
 }

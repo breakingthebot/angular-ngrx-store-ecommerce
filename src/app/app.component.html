@@ -9,21 +9,21 @@
       </a>
 
       <div class="nav-links">
-        <a mat-button routerLink="/catalog" routerLinkActive="active-link" class="nav-btn">
+        <a mat-button routerLink="/catalog" routerLinkActive="active-link" class="nav-btn" matTooltip="Catalog">
           <mat-icon>storefront</mat-icon>
-          <span>Catalog</span>
+          <span class="nav-btn-text">Catalog</span>
         </a>
 
-        <a mat-button routerLink="/orders" routerLinkActive="active-link" class="nav-btn">
+        <a mat-button routerLink="/orders" routerLinkActive="active-link" class="nav-btn" matTooltip="Orders">
           <mat-icon>local_shipping</mat-icon>
-          <span>Orders</span>
+          <span class="nav-btn-text">Orders</span>
         </a>
 
-        <a mat-button routerLink="/wishlist" routerLinkActive="active-link" class="nav-btn">
+        <a mat-button routerLink="/wishlist" routerLinkActive="active-link" class="nav-btn" matTooltip="Wishlist">
           <mat-icon [matBadge]="wishlistTotalItems$ | async" matBadgeColor="accent" [matBadgeHidden]="(wishlistTotalItems$ | async) === 0">
             favorite
           </mat-icon>
-          <span>Wishlist</span>
+          <span class="nav-btn-text">Wishlist</span>
         </a>
 
         <!-- Cart Trigger Button -->

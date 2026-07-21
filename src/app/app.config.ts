@@ -12,16 +12,23 @@ import { orderReducer } from './store/order/order.reducer';
 import { ProductEffects } from './store/product/product.effects';
 import { OrderEffects } from './store/order/order.effects';
 
+import { hydrationMetaReducer } from './store/meta-reducers/hydration.reducer';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideStore({
-      catalog: productReducer,
-      cart: cartReducer,
-      order: orderReducer
-    }),
+    provideStore(
+      {
+        catalog: productReducer,
+        cart: cartReducer,
+        order: orderReducer
+      },
+      {
+        metaReducers: [hydrationMetaReducer]
+      }
+    ),
     provideEffects([
       ProductEffects,
       OrderEffects

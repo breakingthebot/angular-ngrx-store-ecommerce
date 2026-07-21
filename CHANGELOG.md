@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-07-20
+
+### Added
+- Created `CartDrawerComponent` displaying a sliding side drawer for shopping cart management.
+- Implemented NgRx Cart state slice (`cart.actions.ts`, `cart.reducer.ts`, `cart.selectors.ts`).
+- Added free shipping progress bar dynamically calculating remaining amount to reach $150 threshold.
+- Bound navbar shopping cart icon button to live `selectCartTotalItems` badge counter.
+- Wrote unit specs for cart reducer mutations and drawer component interactions.
+
 ## [0.2.0] - 2026-07-20
 
 ### Added

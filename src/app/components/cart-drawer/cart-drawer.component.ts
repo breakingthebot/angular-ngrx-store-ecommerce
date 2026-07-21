@@ -27,11 +27,14 @@ import {
   selectFreeShippingProgress
 } from '../../store/cart/cart.selectors';
 
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-cart-drawer',
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     MatButtonModule,
     MatIconModule,
     MatProgressBarModule,

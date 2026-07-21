@@ -1,0 +1,240 @@
+<div class="checkout-container">
+  @if (currentOrder$ | async; as order) {
+    <!-- Order Confirmation Overlay Card -->
+    <mat-card class="confirmation-card">
+      <div class="confirmation-header">
+        <mat-icon class="success-icon">check_circle</mat-icon>
+        <h2>Order Confirmed!</h2>
+        <p class="order-id">Order Reference: <strong>{{ order.id }}</strong></p>
+      </div>
+
+      <mat-card-content class="confirmation-body">
+        <div class="info-row">
+          <span class="info-label">Status:</span>
+          <span class="status-chip">{{ order.status }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Recipient:</span>
+          <span>{{ order.shipping.fullName }} ({{ order.shipping.email }})</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Delivery Address:</span>
+          <span>{{ order.shipping.addressLine }}, {{ order.shipping.city }}, {{ order.shipping.state }} {{ order.shipping.zipCode }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Payment Method:</span>
+          <span>{{ order.paymentMethod }}</span>
+        </div>
+
+        <div class="info-row total-highlight">
+          <span class="info-label">Amount Paid:</span>
+          <span class="paid-amount">{{ order.total | currency:'USD':'symbol':'1.2-2' }}</span>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="items-summary-list">
+          <h3>Purchased Items ({{ order.items.length }})</h3>
+          @for (item of order.items; track item.product.id) {
+            <div class="purchased-item-row">
+              <span>{{ item.quantity }}x {{ item.product.name }}</span>
+              <span>{{ (item.product.price * item.quantity) | currency:'USD':'symbol':'1.2-2' }}</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="confirmation-actions">
+        <button mat-flat-button color="primary" class="continue-btn" (click)="continueShopping()">
+          <mat-icon>storefront</mat-icon>
+          <span>Continue Shopping</span>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  } @else {
+    <!-- Checkout Stepper Wizard -->
+    <header class="checkout-header">
+      <h1>Checkout</h1>
+      <p>Complete your shipping, payment, and order review in 3 quick steps.</p>
+    </header>
+
+    <div class="stepper-card">
+      <mat-stepper linear #stepper class="custom-stepper">
+        <!-- Step 1: Shipping Address -->
+        <mat-step [stepControl]="shippingForm" errorMessage="Shipping info is required.">
+          <form [formGroup]="shippingForm" class="step-form">
+            <ng-template matStepLabel>Shipping Details</ng-template>
+
+            <h3 class="step-title">Where should we deliver your order?</h3>
+
+            <div class="form-grid">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Full Name</mat-label>
+                <input matInput formControlName="fullName" placeholder="John Doe">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email Address</mat-label>
+                <input matInput formControlName="email" type="email" placeholder="john@example.com">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width grid-span-2">
+                <mat-label>Address Line</mat-label>
+                <input matInput formControlName="addressLine" placeholder="123 Main Street, Apt 4B">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" placeholder="Chicago">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>State</mat-label>
+                <input matInput formControlName="state" placeholder="IL">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>ZIP Code</mat-label>
+                <input matInput formControlName="zipCode" placeholder="60601">
+              </mat-form-field>
+            </div>
+
+            <div class="stepper-actions">
+              <button mat-flat-button color="primary" matStepperNext [disabled]="shippingForm.invalid">
+                <span>Next: Payment</span>
+                <mat-icon>arrow_forward</mat-icon>
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Step 2: Payment & Billing -->
+        <mat-step [stepControl]="paymentForm" errorMessage="Payment details required.">
+          <form [formGroup]="paymentForm" class="step-form">
+            <ng-template matStepLabel>Payment & Billing</ng-template>
+
+            <h3 class="step-title">Secure Payment Details</h3>
+
+            <div class="form-grid">
+              <mat-form-field appearance="outline" class="full-width grid-span-2">
+                <mat-label>Cardholder Name</mat-label>
+                <input matInput formControlName="cardholderName" placeholder="John Doe">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width grid-span-2">
+                <mat-label>Card Number</mat-label>
+                <input matInput formControlName="cardNumber" placeholder="4532 8912 3456 7890">
+                <mat-icon matSuffix>credit_card</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Expiration Date</mat-label>
+                <input matInput formControlName="expirationDate" placeholder="MM/YY">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>CVV Security Code</mat-label>
+                <input matInput formControlName="cvv" type="password" placeholder="123">
+              </mat-form-field>
+            </div>
+
+            <div class="stepper-actions">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-flat-button color="primary" matStepperNext [disabled]="paymentForm.invalid">
+                <span>Next: Order Review</span>
+                <mat-icon>arrow_forward</mat-icon>
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Step 3: Order Review & Placement -->
+        <mat-step>
+          <ng-template matStepLabel>Order Review</ng-template>
+
+          <div class="step-form">
+            <h3 class="step-title">Review & Submit Order</h3>
+
+            <div class="review-grid">
+              <!-- Shipping Summary Card -->
+              <mat-card class="review-card">
+                <mat-card-header>
+                  <mat-card-title>Shipping Address</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <p><strong>{{ shippingForm.value.fullName }}</strong></p>
+                  <p>{{ shippingForm.value.addressLine }}</p>
+                  <p>{{ shippingForm.value.city }}, {{ shippingForm.value.state }} {{ shippingForm.value.zipCode }}</p>
+                  <p>{{ shippingForm.value.email }}</p>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Payment Summary Card -->
+              <mat-card class="review-card">
+                <mat-card-header>
+                  <mat-card-title>Payment Method</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <p><strong>Cardholder:</strong> {{ paymentForm.value.cardholderName }}</p>
+                  <p><strong>Card Number:</strong> **** **** **** {{ paymentForm.value.cardNumber?.slice(-4) }}</p>
+                  <p><strong>Expires:</strong> {{ paymentForm.value.expirationDate }}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+
+            <!-- Price Breakdown Table -->
+            <div class="price-summary-box">
+              @if (subtotal$ | async; as subtotal) {
+                <div class="price-row">
+                  <span>Subtotal</span>
+                  <span>{{ subtotal | currency:'USD':'symbol':'1.2-2' }}</span>
+                </div>
+
+                <div class="price-row">
+                  <span>Shipping Fee</span>
+                  <span>
+                    @if (subtotal >= 150) {
+                      <strong class="free-text">FREE ($0.00)</strong>
+                    } @else {
+                      <span>$9.99</span>
+                    }
+                  </span>
+                </div>
+
+                <div class="price-row">
+                  <span>Estimated Tax (8%)</span>
+                  <span>{{ (subtotal * 0.08) | currency:'USD':'symbol':'1.2-2' }}</span>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <div class="price-row grand-total-row">
+                  <span>Grand Total</span>
+                  <span class="grand-total-amount">
+                    {{ (subtotal + (subtotal >= 150 ? 0 : 9.99) + (subtotal * 0.08)) | currency:'USD':'symbol':'1.2-2' }}
+                  </span>
+                </div>
+              }
+            </div>
+
+            <div class="stepper-actions">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-flat-button color="primary" class="place-order-btn" (click)="submitOrder()" [disabled]="isPlacingOrder$ | async">
+                @if (isPlacingOrder$ | async) {
+                  <mat-spinner diameter="20" color="accent"></mat-spinner>
+                  <span>Processing...</span>
+                } @else {
+                  <mat-icon>check</mat-icon>
+                  <span>Place Order</span>
+                }
+              </button>
+            </div>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </div>
+  }
+</div>

@@ -8,7 +8,9 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 import { productReducer } from './store/product/product.reducer';
 import { cartReducer } from './store/cart/cart.reducer';
+import { orderReducer } from './store/order/order.reducer';
 import { ProductEffects } from './store/product/product.effects';
+import { OrderEffects } from './store/order/order.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,10 +19,12 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideStore({
       catalog: productReducer,
-      cart: cartReducer
+      cart: cartReducer,
+      order: orderReducer
     }),
     provideEffects([
-      ProductEffects
+      ProductEffects,
+      OrderEffects
     ]),
     provideStoreDevtools({
       maxAge: 25,

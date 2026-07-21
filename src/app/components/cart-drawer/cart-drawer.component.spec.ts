@@ -17,6 +17,8 @@ import {
   selectFreeShippingProgress
 } from '../../store/cart/cart.selectors';
 
+import { provideRouter } from '@angular/router';
+
 describe('CartDrawerComponent', () => {
   let component: CartDrawerComponent;
   let fixture: ComponentFixture<CartDrawerComponent>;
@@ -43,6 +45,7 @@ describe('CartDrawerComponent', () => {
       imports: [CartDrawerComponent],
       providers: [
         provideAnimationsAsync(),
+        provideRouter([]),
         provideMockStore({
           selectors: [
             { selector: selectCartItems, value: mockCartItems },

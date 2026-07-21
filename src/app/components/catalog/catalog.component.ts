@@ -33,6 +33,9 @@ import {
   selectProductsError
 } from '../../store/product/product.selectors';
 
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { ProductDetailDialogComponent } from '../product-detail-dialog/product-detail-dialog.component';
+
 @Component({
   selector: 'app-catalog',
   standalone: true,
@@ -48,13 +51,15 @@ import {
     MatSelectModule,
     MatProgressSpinnerModule,
     MatBadgeModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css'
 })
 export class CatalogComponent implements OnInit {
   private store = inject(Store);
+  private dialog = inject(MatDialog);
 
   // Store Observables
   products$: Observable<Product[]> = this.store.select(selectAllProducts);
@@ -134,6 +139,14 @@ export class CatalogComponent implements OnInit {
 
   addToCart(product: Product): void {
     this.store.dispatch(CartActions.addToCart({ product }));
+  }
+
+  openProductDetail(product: Product): void {
+    this.dialog.open(ProductDetailDialogComponent, {
+      data: product,
+      maxWidth: '780px',
+      width: '92vw'
+    });
   }
 
   private triggerRecompute(): void {

@@ -100,12 +100,16 @@
 }
 
 /* Image Wrapper */
-.image-wrapper {
-  position: relative;
-  height: 210px;
-  width: 100%;
-  overflow: hidden;
-  background-color: #f8fafc;
+.image-wrapper.clickable {
+  cursor: pointer;
+}
+
+.product-title.clickable {
+  cursor: pointer;
+}
+
+.product-title.clickable:hover {
+  color: var(--primary-color, #2563eb);
 }
 
 .product-image {

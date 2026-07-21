@@ -1,0 +1,92 @@
+<div class="product-dialog-wrap">
+  <!-- Dialog Header Bar -->
+  <div class="dialog-header">
+    <span class="category-chip">{{ product.category }}</span>
+    <button mat-icon-button (click)="onClose()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Dialog Body Grid -->
+  <mat-dialog-content class="dialog-content">
+    <div class="product-detail-grid">
+      <!-- Image Column -->
+      <div class="image-col">
+        <img [src]="product.imageUrl" [alt]="product.name" class="detail-image">
+        <div class="stock-badge" [ngClass]="{'in-stock': product.stock > 0, 'out-stock': product.stock === 0}">
+          <mat-icon class="stock-icon">{{ product.stock > 0 ? 'check_circle' : 'remove_circle' }}</mat-icon>
+          <span>{{ product.stock > 0 ? ('In Stock (' + product.stock + ')') : 'Out of Stock' }}</span>
+        </div>
+      </div>
+
+      <!-- Specs Column -->
+      <div class="specs-col">
+        <h2 class="dialog-title">{{ product.name }}</h2>
+
+        <div class="rating-review-row">
+          <div class="rating-badge">
+            <mat-icon class="star-icon">star</mat-icon>
+            <span class="score-val">{{ product.rating }}</span>
+          </div>
+          <span class="reviews-count">({{ product.reviewsCount || 12 }} verified reviews)</span>
+        </div>
+
+        <div class="price-display">
+          <span class="price-val">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</span>
+        </div>
+
+        <p class="description-text">{{ product.description }}</p>
+
+        <!-- Key Features Bullet List -->
+        @if (product.features && product.features.length) {
+          <div class="features-box">
+            <h3 class="box-subtitle">Key Features</h3>
+            <ul class="features-list">
+              @for (feat of product.features; track feat) {
+                <li>
+                  <mat-icon class="check-bullet">task_alt</mat-icon>
+                  <span>{{ feat }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Customer Reviews Breakdown -->
+    <div class="reviews-section">
+      <h3 class="section-title">Verified Customer Reviews</h3>
+      @if (product.reviews && product.reviews.length) {
+        <div class="reviews-list">
+          @for (rev of product.reviews; track rev.id) {
+            <div class="review-card">
+              <div class="rev-header">
+                <div class="rev-author-wrap">
+                  <span class="rev-author">{{ rev.author }}</span>
+                  <span class="rev-date">{{ rev.date | date:'mediumDate' }}</span>
+                </div>
+                <div class="rev-stars">
+                  <mat-icon class="star-icon">star</mat-icon>
+                  <span>{{ rev.rating }}</span>
+                </div>
+              </div>
+              <p class="rev-comment">"{{ rev.comment }}"</p>
+            </div>
+          }
+        </div>
+      } @else {
+        <p class="no-reviews">No reviews recorded yet for this item.</p>
+      }
+    </div>
+  </mat-dialog-content>
+
+  <!-- Dialog Actions Footer -->
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button (click)="onClose()">Close</button>
+    <button mat-flat-button color="primary" class="dialog-add-btn" (click)="onAddToCart()">
+      <mat-icon>add_shopping_cart</mat-icon>
+      <span>Add to Cart - {{ product.price | currency:'USD':'symbol':'1.2-2' }}</span>
+    </button>
+  </mat-dialog-actions>
+</div>

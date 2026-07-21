@@ -61,7 +61,7 @@
       @for (product of filteredProducts$ | async; track product.id) {
         <mat-card class="product-card">
           <!-- Image Wrapper with Category Badge -->
-          <div class="image-wrapper">
+          <div class="image-wrapper clickable" (click)="openProductDetail(product)">
             <img [src]="product.imageUrl" [alt]="product.name" class="product-image" loading="lazy">
             <span class="category-badge">{{ product.category }}</span>
           </div>
@@ -78,7 +78,7 @@
               </span>
             </div>
 
-            <h2 class="product-title">{{ product.name }}</h2>
+            <h2 class="product-title clickable" (click)="openProductDetail(product)">{{ product.name }}</h2>
             <p class="product-desc">{{ product.description }}</p>
           </mat-card-content>
 

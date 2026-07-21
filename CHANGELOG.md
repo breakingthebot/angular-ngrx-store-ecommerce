@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-07-21
+
+### Added
+- Created `ProductDetailDialogComponent` rendering a popover detail modal overlay.
+- Added bullet list features/specifications to each mock product database item.
+- Populated customer reviews lists (`ProductReview` interface) inside mock catalog database.
+- Integrated star rating badges, average scores, and review cards.
+- Integrated dialog action button directly dispatching cart additions.
+- Wrote unit specs for the product details popover dialog component.
+
 ## [0.5.0] - 2026-07-20
 
 ### Added

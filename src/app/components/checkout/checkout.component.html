@@ -224,11 +224,15 @@
               <button mat-button matStepperPrevious>Back</button>
               <button mat-flat-button color="primary" class="place-order-btn" (click)="submitOrder()" [disabled]="isPlacingOrder$ | async">
                 @if (isPlacingOrder$ | async) {
-                  <mat-spinner diameter="20" color="accent"></mat-spinner>
-                  <span>Processing...</span>
+                  <ng-container>
+                    <mat-spinner diameter="20" color="accent"></mat-spinner>
+                    <span>Processing...</span>
+                  </ng-container>
                 } @else {
-                  <mat-icon>check</mat-icon>
-                  <span>Place Order</span>
+                  <ng-container>
+                    <mat-icon>check</mat-icon>
+                    <span>Place Order</span>
+                  </ng-container>
                 }
               </button>
             </div>

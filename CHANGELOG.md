@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-07-20
+
+### Added
+- Created `OrdersComponent` rendering order history timeline cards at route `/orders`.
+- Added reactive status filter chips ("All", "Processing", "Shipped", "Delivered") connected to `selectAllOrders` selector.
+- Built order details breakdown displaying recipient info, delivery address, payment method, item receipts, and totals summary.
+- Bound top navigation toolbar link for "Orders" with icon badge.
+- Wrote unit specs for order history card rendering and status chip filtering.
+
 ## [0.4.0] - 2026-07-20
 
 ### Added
